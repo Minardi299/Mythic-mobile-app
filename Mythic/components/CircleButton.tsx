@@ -1,12 +1,14 @@
-import { Text, View,  StyleSheet } from 'react-native';
-import Button from '@/components/Button';
-import ImageViewer from '@/components/ImageViewer';
+import { View, StyleSheet } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { useState } from 'react';
+
+import Button from '@/components/Button';
+import ImageViewer from '@/components/ImageViewer';
+
 const PlaceholderImage = require('@/assets/images/background-image.png');
 
 export default function Index() {
-  const [selectedImage, setSelectedImage] =  useState<string | undefined>(undefined);
+  const [selectedImage, setSelectedImage] = useState<string | undefined>(undefined);
   const [showAppOptions, setShowAppOptions] = useState<boolean>(false);
 
   const pickImageAsync = async () => {
@@ -18,23 +20,23 @@ export default function Index() {
 
     if (!result.canceled) {
       setSelectedImage(result.assets[0].uri);
-      console.log(result);
+      setShowAppOptions(true);
     } else {
       alert('You did not select any image.');
     }
   };
+
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Home screen</Text>
       <View style={styles.imageContainer}>
         <ImageViewer imgSource={PlaceholderImage} selectedImage={selectedImage} />
       </View>
       {showAppOptions ? (
-        <View/>
+        <View />
       ) : (
-        <View style={styles.footerContainer}> 
-          <Button theme='primary' label='Chose a photo' onPress={pickImageAsync} />
-          <Button label="Use this photo" onPress={() => setShowAppOptions(true)}/>
+        <View style={styles.footerContainer}>
+          <Button theme="primary" label="Choose a photo" onPress={pickImageAsync} />
+          <Button label="Use this photo" onPress={() => setShowAppOptions(true)} />
         </View>
       )}
     </View>
@@ -46,15 +48,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#25292e',
     alignItems: 'center',
-    justifyContent: 'center',
-  },
-  text: {
-    color: '#fff',
-  },
-    button: {
-    fontSize: 20,
-    textDecorationLine: 'underline',
-    color: '#fff',
   },
   imageContainer: {
     flex: 1,
