@@ -1,59 +1,35 @@
-import { View, StyleSheet } from 'react-native';
-import * as ImagePicker from 'expo-image-picker';
-import { useState } from 'react';
+import { View, Pressable, StyleSheet } from 'react-native';
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
-import Button from '@/components/Button';
-import ImageViewer from '@/components/ImageViewer';
+type Props = {
+  onPress: () => void;
+};
 
-const PlaceholderImage = require('@/assets/images/background-image.png');
-
-export default function Index() {
-  const [selectedImage, setSelectedImage] = useState<string | undefined>(undefined);
-  const [showAppOptions, setShowAppOptions] = useState<boolean>(false);
-
-  const pickImageAsync = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ['images'],
-      allowsEditing: true,
-      quality: 1,
-    });
-
-    if (!result.canceled) {
-      setSelectedImage(result.assets[0].uri);
-      setShowAppOptions(true);
-    } else {
-      alert('You did not select any image.');
-    }
-  };
-
+export default function CircleButton({ onPress }: Props) {
   return (
-    <View style={styles.container}>
-      <View style={styles.imageContainer}>
-        <ImageViewer imgSource={PlaceholderImage} selectedImage={selectedImage} />
-      </View>
-      {showAppOptions ? (
-        <View />
-      ) : (
-        <View style={styles.footerContainer}>
-          <Button theme="primary" label="Choose a photo" onPress={pickImageAsync} />
-          <Button label="Use this photo" onPress={() => setShowAppOptions(true)} />
-        </View>
-      )}
+    <View style={styles.circleButtonContainer}>
+      <Pressable style={styles.circleButton} onPress={onPress}>
+        <MaterialIcons name="add" size={38} color="#25292e" />
+      </Pressable>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#25292e',
-    alignItems: 'center',
+  circleButtonContainer: {
+    width: 84,
+    height: 84,
+    marginHorizontal: 60,
+    borderWidth: 4,
+    borderColor: '#ffd33d',
+    borderRadius: 42,
+    padding: 3,
   },
-  imageContainer: {
+  circleButton: {
     flex: 1,
-  },
-  footerContainer: {
-    flex: 1 / 3,
+    justifyContent: 'center',
     alignItems: 'center',
+    borderRadius: 42,
+    backgroundColor: '#fff',
   },
 });
